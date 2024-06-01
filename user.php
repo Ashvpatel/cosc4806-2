@@ -20,9 +20,11 @@ Class User {
       $db = db_connect();
       $statement = $db->prepare("SELECT id FROM users WHERE username = ?");
       $statement->execute([$username]);
+  
       if ($statement->fetch()) {
           return ['error' => 'username already exists'];
       }
+  
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
       $statement = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
       $statement->execute([$username, $hashed_password]);
@@ -36,12 +38,11 @@ Class User {
       $statement = $db->prepare("SELECT * FROM users WHERE username = ?");
       $statement->execute([$username]);
       $user = $statement->fetch();
+    
       if ($user && password_verify($password, $user['password'])) {
           return $user;
       }
-      return false;
+      return false; 
     
   }
-
-
 }

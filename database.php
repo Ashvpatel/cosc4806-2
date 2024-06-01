@@ -13,6 +13,4 @@ function db_connect() {
     }
 }
 
-
-
 ?>
