@@ -8,7 +8,7 @@ if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == 1) {
 }
 
 ?>
-<!DOCTYPE html>
+
 <html>
   <head>
     <title>Login</title>
