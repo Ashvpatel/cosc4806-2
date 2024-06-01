@@ -12,12 +12,17 @@ Class User {
     return $rows;
   }
 
-  public function create_user ($username, $password) {
-    $db = db_connect();
-    $statement = $db->prepare("INSERT into users ...");
-    $statement->execute();
-    $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $rows;
+  public function create_user($username, $password) {
+      $db = db_connect();
+      $statement = $db->prepare("SELECT id FROM users WHERE username = ?");
+      $statement->execute([$username]);
+      if ($statement->fetch()) {
+          return ['error' => 'username already exists'];
+      }
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+      $statement = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+      $statement->execute([$username, $hashed_password]);
+      return ['success' => 'Created an account successfully'];
   }
 
 
